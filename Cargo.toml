@@ -1,0 +1,18 @@
+[package]
+name = "op-alloy-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+eyre = "0.6.12"
+tokio = { version = "1.43.0", features = ["rt-multi-thread"] }
+
+# working
+alloy-provider = { version = "0.9.2" }
+alloy-rpc-types = "0.9.2"
+op-alloy-network = "0.9.2"
+
+# not working with the latest versions
+#alloy-provider = { version = "0.11.0" }
+#alloy-rpc-types = "0.11.0"
+#op-alloy-network = "0.10.2"
