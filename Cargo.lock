@@ -1949,6 +1949,7 @@ dependencies = [
 name = "op-alloy-example"
 version = "0.1.0"
 dependencies = [
+ "alloy-eips",
  "alloy-provider",
  "alloy-rpc-types",
  "eyre",
