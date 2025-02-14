@@ -13,15 +13,24 @@ async fn main() -> eyre::Result<()> {
     let Some(block) = provider.get_block(BlockId::latest(), BlockTransactionsKind::Full).await? else {
         return Err(eyre::eyre!("Failed to get block"));
     };
-    println!("Block: {}", block.header.number);
 
+    //
+    // Before Holocene
+    //
+    let Some(next_block_base_fee) = block.header.next_block_base_fee(BaseFeeParams::optimism_canyon()) else {
+        return Err(eyre::eyre!("Failed to get base fee"));
+    };
+    println!("Next block base fee (before Holocene): {} gwei", format_units(next_block_base_fee, "gwei")?);
+
+    //
+    // Holocene
+    //
     let (elasticity, denominator) = decode_holocene_extra_data(&block.header.extra_data)?;
     let base_fee_params = BaseFeeParams::new(denominator as u128, elasticity as u128);
-
     let Some(next_block_base_fee) = block.header.next_block_base_fee(base_fee_params) else {
         return Err(eyre::eyre!("Failed to get base fee"));
     };
-    println!("Next block base fee: {} gwei", format_units(next_block_base_fee, "gwei")?);
+    println!("Next block base fee (Holocene): {} gwei", format_units(next_block_base_fee, "gwei")?);
 
     Ok(())
 }
